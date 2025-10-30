@@ -125,7 +125,7 @@ app.post('/login', async (req, res) => {
   if (!ok) return res.render('login', { error: 'Invalid credentials' });
 
   req.session.adminId = admin._id;
-  res.redirect('/dashboard');
+  res.redirect('/');
 });
 
 app.get('/logout', (req, res) => req.session.destroy(() => res.redirect('/login')));

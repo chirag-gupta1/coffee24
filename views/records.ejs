@@ -45,7 +45,6 @@ async function deleteRecord(id, date) {
 
     const data = await res.json();
     if (data.success) {
-      alert(`✅ Report for ${date} deleted successfully.`);
       // remove the record card from DOM
       const card = document.querySelector(`[onclick*="${id}"]`)?.closest('.record-card');
       if (card) card.remove();

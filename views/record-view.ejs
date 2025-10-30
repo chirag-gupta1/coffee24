@@ -22,16 +22,48 @@
 
   <a href="/records" class="btn" style="margin-top:16px;display:inline-block;">Back to Reports</a>
   
-  <form method="post" action="/record/<%= record._id %>/delete" onsubmit="return confirmDelete('<%= record.date %>')" style="margin-top:20px;">
-  <button class="btn" type="submit" style="background:#fff0f0;border:1px solid #cc0000;color:#cc0000;border-radius:8px;padding:8px 14px;font-weight:600;">Delete This Report</button>
-</form>
+  <!-- Replace the form with a button that uses fetch -->
+  <button 
+    class="btn" 
+    onclick="deleteRecord('<%= record._id %>', '<%= record.date %>')"
+    style="background:#fff0f0;border:1px solid #cc0000;color:#cc0000;border-radius:8px;padding:8px 14px;font-weight:600;margin-top:20px;cursor:pointer;">
+    Delete This Report
+  </button>
+</section>
 
 <script>
-function confirmDelete(date) {
-  return confirm(`Are you sure you want to delete the report for ${date}?`);
+async function deleteRecord(id, date) {
+  if (!confirm(`Are you sure you want to delete the report for ${date}?`)) return;
+
+  try {
+    const res = await fetch(`/record/${id}`, {
+      method: 'DELETE',
+      credentials: 'include', // ✅ needed for session-based auth
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error('Server response:', text);
+      alert('⚠️ Server error while deleting record.');
+      return;
+    }
+
+    const data = await res.json();
+    if (data.success) {
+      // Redirect back to records page after successful deletion
+      window.location.href = '/records';
+    } else {
+      alert('⚠️ ' + (data.message || 'Error deleting record.'));
+    }
+  } catch (err) {
+    console.error('Fetch error:', err);
+    alert('Something went wrong.');
+  }
 }
 </script>
-
-</section>
 
 <%- include('partials/footer') %>
