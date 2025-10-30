@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<section class="record-detail" style="max-width:800px;margin:30px auto;padding:20px;background:var(--card);border-radius:12px;box-shadow:0 6px 18px rgba(16,24,40,0.05);">
+  <h2 style="color:var(--accent);margin-bottom:10px;">Report — <%= record.date %></h2>
+  <ul style="list-style:none;padding:0;margin:0;">
+    <% Object.keys(record.totals).forEach(name => { %>
+      <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;">
+        <strong><%= name %></strong>
+        <span><%= record.totals[name] %></span>
+      </li>
+    <% }) %>
+  </ul>
+
+  <form method="post" action="/generate-report" style="margin-top:20px;">
+    <input type="hidden" name="date" value="<%= record.date %>">
+    <select name="type" style="padding:8px;border-radius:8px;margin-right:8px;">
+      <option value="pdf">PDF</option>
+      <option value="txt">Text</option>
+    </select>
+    <button class="btn-cta" type="submit">Download</button>
+  </form>
+
+  <a href="/records" class="btn" style="margin-top:16px;display:inline-block;">Back to Reports</a>
+  
+  <form method="post" action="/record/<%= record._id %>/delete" onsubmit="return confirmDelete('<%= record.date %>')" style="margin-top:20px;">
+  <button class="btn" type="submit" style="background:#fff0f0;border:1px solid #cc0000;color:#cc0000;border-radius:8px;padding:8px 14px;font-weight:600;">Delete This Report</button>
+</form>
+
+<script>
+function confirmDelete(date) {
+  return confirm(`Are you sure you want to delete the report for ${date}?`);
+}
+</script>
+
+</section>
+
+<%- include('partials/footer') %>

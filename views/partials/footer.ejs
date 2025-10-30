@@ -1,0 +1,23 @@
+</main>
+<footer class="footer">
+  <div>© Coffee 24</div>
+</footer>
+<script>
+// small client-side search to filter machines
+document.addEventListener('DOMContentLoaded', ()=>{
+  const search = document.getElementById('machineSearch');
+  if(search){
+    search.addEventListener('input', ()=>{
+      const q = search.value.toLowerCase();
+      document.querySelectorAll('.machine-card').forEach(card => {
+        const code = card.dataset.code.toLowerCase();
+        const loc = card.dataset.loc.toLowerCase();
+        if(code.includes(q) || loc.includes(q)) card.style.display='';
+        else card.style.display='none';
+      });
+    });
+  }
+});
+</script>
+</body>
+</html>

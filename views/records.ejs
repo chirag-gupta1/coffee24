@@ -1,0 +1,66 @@
+<%- include('partials/header') %>
+<section class="records-list">
+  <h2>Saved Reports</h2>
+  <% if(records.length === 0){ %>
+    <p>No reports yet. Go to <a href="/dashboard">Create Report</a>.</p>
+  <% } %>
+  <% records.forEach(r=>{ %>
+  <div class="record-card">
+    <div class="r-head" style="display:flex;justify-content:space-between;align-items:center;">
+      <a href="/record/<%= r._id %>" class="r-date" style="font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;">
+        <%= r.date %>
+      </a>
+      <button 
+  class="btn-delete" 
+  onclick="deleteRecord('<%= r._id %>', '<%= r.date %>')"
+  style="background:#fff0f0;border:1.5px solid #cc0000;color:#cc0000;border-radius:8px;padding:6px 10px;font-weight:600;cursor:pointer;">
+  Delete
+</button>
+
+
+    </div>
+  </div>
+<% }) %>
+
+<script>
+async function deleteRecord(id, date) {
+  if (!confirm(`Are you sure you want to delete the report for ${date}?`)) return;
+
+  try {
+    const res = await fetch(`/record/${id}`, {
+      method: 'DELETE',
+      credentials: 'include', // ✅ needed for session-based auth
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error('Server response:', text);
+      alert('⚠️ Server error while deleting record.');
+      return;
+    }
+
+    const data = await res.json();
+    if (data.success) {
+      alert(`✅ Report for ${date} deleted successfully.`);
+      // remove the record card from DOM
+      const card = document.querySelector(`[onclick*="${id}"]`)?.closest('.record-card');
+      if (card) card.remove();
+    } else {
+      alert('⚠️ ' + data.message || 'Error deleting record.');
+    }
+  } catch (err) {
+    console.error('Fetch error:', err);
+    alert('Something went wrong.');
+  }
+}
+</script>
+
+
+
+</section>
+
+<%- include('partials/footer') %>

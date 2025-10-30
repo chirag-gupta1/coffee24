@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+
+<section class="controls">
+  <div class="search-wrap">
+    <input id="machineSearch" placeholder="Search machine by code or location (e.g., 101 or Calado)">
+  </div>
+
+  <form method="post" action="/save-report" style="text-align:right;margin-top:1px;">
+  <button type="submit" class="btn-cta">Save Report</button>
+</form>
+
+
+</section>
+
+<section class="machines-grid">
+  <% machines.forEach(m => { %>
+    <div class="machine-card" data-code="<%= m.code %>" data-model="$= m.model %>" data-loc="<%= m.location %>">
+      <div class="mc-header">
+        <div class="mc-code"><%= m.code %></div>
+        <div class="mc-model"><%=m.model %></div>
+        <div class="mc-loc"><%= m.location %></div>
+      </div>
+      <div class="mc-body">
+        <a class="btn-link" href="/machine/<%= m._id %>">Edit ingredients</a>
+      </div>
+    </div>
+  <% }) %>
+</section>
+
+<section class="totals-panel">
+  <h3>Current Totals (all machines)</h3>
+  <div class="totals-grid">
+    <% Object.keys(totals).forEach(name=>{ %>
+      <div class="total-card">
+        <div class="total-name"><%= name %></div>
+        <div class="total-qty"><%= totals[name] %></div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

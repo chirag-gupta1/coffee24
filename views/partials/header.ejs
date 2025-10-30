@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Coffee 24 — Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="topbar">
+  <div class="left">
+    <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;">
+      <img src="/images/coffe-logo.png" alt="Logo" class="logo">
+      <div class="brand">
+        <div class="title">Coffee 24</div>
+        <div class="subtitle">Preparation Dashboard</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="right" style="display:flex;align-items:center;gap:12px;">
+    <a href="/" class="btn-ghost">Home</a>
+    <div class="date" id="currentDate"><%= typeof today !== 'undefined' ? today : '' %></div>
+    <a href="/logout" class="btn-ghost">Logout</a>
+  </div>
+</header>
+
+<main class="container">

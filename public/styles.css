@@ -1,0 +1,167 @@
+/* Modern vibrant dashboard - Coffee 24 */
+/* Fonts: Poppins loaded in header partials */
+
+/* Variables */
+:root{
+  --bg1: #fffaf6;
+  --accent: #6b4226; /* brown primary */
+  --accent-2: #c97f47; /* warm gold */
+  --muted: #6b6b6b;
+  --card: rgba(255,255,255,0.85);
+  --glass: rgba(255,255,255,0.6);
+  --glass-border: rgba(107,66,38,0.08);
+}
+
+/* Reset */
+*{box-sizing:border-box}
+body{
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: linear-gradient(180deg,#fffaf6 0%, #f2efe9 100%);
+  color: #34251f;
+  margin:0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden; /* ✅ prevents sideways scroll */
+}
+
+/* Topbar */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 28px;
+  background: linear-gradient(90deg, rgba(107,66,38,0.95), rgba(201,127,71,0.95));
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(107,66,38,0.15);
+  flex-wrap:wrap; /* ✅ allow wrapping on small screens */
+  gap:8px;
+}
+.topbar .left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{height:56px;border-radius:10px;background:rgba(255,255,255,0.2);padding:6px}
+.brand .title{font-weight:700;font-size:1.2rem;letter-spacing:0.6px}
+.brand .subtitle{font-size:0.85rem;opacity:0.92}
+
+/* container main */
+.container{max-width:1200px;margin:24px auto;padding:0 18px;width:100%}
+
+/* Controls */
+.controls{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.search-wrap{flex:1;min-width:260px}
+#machineSearch{
+  width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--glass-border);background:var(--card);
+  box-shadow:0 4px 20px rgba(16,24,40,0.04);
+  font-size:1rem;
+}
+
+/* report form */
+.report-form{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn-cta{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(107,66,38,0.12)}
+.btn{background:#fff;border:1px solid var(--glass-border);padding:8px 12px;border-radius:8px;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff;padding:8px 10px;border-radius:8px;text-decoration:none}
+
+/* Machines grid */
+.machines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.machine-card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.machine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(16, 24, 40, 0.1);
+}
+
+.mc-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.mc-code {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+}
+
+.mc-model {
+  font-weight: 600;
+  color: #3d2a1a;
+  font-size: 0.95rem;
+}
+
+.mc-loc {
+  font-weight: 600;
+  color: #2b1b10;
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+/* totals panel */
+.totals-panel{margin-top:8px;background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.8));padding:16px;border-radius:12px;border:1px solid var(--glass-border);box-shadow:0 8px 26px rgba(16,24,40,0.04)}
+.totals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px}
+.total-card{background:#fff;padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;border:1px solid #f0e6df}
+.total-name{font-weight:600;color:#5b3e2b}
+.total-qty{font-size:1.1rem;background:linear-gradient(90deg,#fff, #fffaf6);padding:6px 10px;border-radius:8px;box-shadow:inset 0 -2px 6px rgba(0,0,0,0.03)}
+
+/* machine edit page */
+.machine-edit{max-width:900px;margin:0 auto;padding:0 12px}
+.ing-table{width:100%;border-collapse:collapse;margin-top:10px}
+.ing-table th, .ing-table td{padding:10px;border-bottom:1px solid #efe6dc}
+.actions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* records */
+.records-list{max-width:1000px;margin:0 auto;padding:0 12px}
+.record-card{background:var(--card);padding:12px;border-radius:10px;margin-bottom:12px;border:1px solid var(--glass-border)}
+.r-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.r-date{font-weight:700;color:var(--accent)}
+
+/* auth page */
+.auth-page{display:flex;align-items:center;justify-content:center;height:100vh;background:linear-gradient(180deg,#fffaf6,#f2efe9);padding:16px}
+.auth-card{background:#fff;padding:28px;border-radius:14px;box-shadow:0 10px 30px rgba(16,24,40,0.08);width:100%;max-width:360px;text-align:center}
+.logo-large{height:78px;margin-bottom:8px}
+.auth-form{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.auth-form input{padding:10px;border-radius:8px;border:1px solid #efe6dc}
+
+/* footer */
+.footer{max-width:1200px;margin:20px auto;padding:12px 18px;border-top:1px solid #efe9e1;color:#6b4a33;display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;flex-wrap:wrap;text-align:center;gap:8px}
+
+/* ✅ Responsive tweaks */
+@media (max-width:900px){
+  .machines-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+}
+
+@media (max-width:700px){
+  .controls{flex-direction:column;align-items:stretch}
+  .topbar{padding:14px 12px;text-align:center}
+  .logo{height:48px;margin:0 auto}
+  .brand .title{font-size:1.1rem}
+  .machines-grid{grid-template-columns:1fr}
+  .btn-cta, .btn{width:100%;text-align:center}
+  .totals-grid{grid-template-columns:1fr}
+  .total-card{flex-direction:column;gap:6px;text-align:center}
+  .r-head{flex-direction:column;align-items:flex-start}
+}
+
+@media (max-width:480px){
+  .topbar{flex-direction:column;gap:10px}
+  .controls{gap:8px}
+  h1,h2{font-size:1.2rem}
+  .machine-card{padding:14px;min-height:140px}
+  .footer{flex-direction:column;font-size:0.85rem}
+}

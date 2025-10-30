@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+<section class="machine-edit">
+  <h2>Machine <%= machine.code %> — <%= machine.model %> - <%= machine.location %></h2>
+  <form method="post" action="/machine/<%= machine._id %>/save" class="machine-form">
+    <table class="ing-table">
+      <tr><th>Ingredient</th><th>Quantity</th></tr>
+      <% machine.ingredients.forEach(ing => { %>
+        <tr>
+          <td><%= ing.name %></td>
+          <td>
+            <select name="ing_<%= ing.name %>">
+              <% quantities.forEach(q=>{ %>
+                <option value="<%= q %>" <%= Number(ing.quantity) === Number(q) ? 'selected' : '' %>><%= q %></option>
+              <% }) %>
+            </select>
+          </td>
+        </tr>
+      <% }) %>
+    </table>
+    <div class="actions">
+      <button class="btn" type="submit">Save</button>
+      <a class="btn" href="/dashboard">Back</a>
+    </div>
+  </form>
+</section>
+<%- include('partials/footer') %>
