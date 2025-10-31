@@ -27,31 +27,43 @@
 
       <h3 class="section-subtitle">⚙️ Ingredients</h3>
 
-<div id="ingredient-list" class="ingredient-container">
-  <% machine.ingredients.forEach((ing, index) => { %>
-    <div class="ingredient-card">
-      <div class="ingredient-fields">
-        <input type="text" name="ingredients[<%= index %>][name]" value="<%= ing.name %>" placeholder="Ingredient name" required>
-        <input type="number" name="ingredients[<%= index %>][quantity]" value="<%= ing.quantity %>" placeholder="Quantity" step="any" required>
+      <div id="ingredient-list" class="ingredient-container">
+        <% 
+          const defaultIngredients = [
+            { name: 'Coffee Beans', quantity: 0 },
+            { name: 'Sugar', quantity: 0 },
+            { name: 'Milk', quantity: 0 },
+            { name: 'Chocolate Syrup', quantity: 0 },
+            { name: 'Water', quantity: 0 }
+          ];
+          const ingredientsToShow = machine.ingredients && machine.ingredients.length > 0 
+            ? machine.ingredients 
+            : defaultIngredients;
+        %>
+        <% ingredientsToShow.forEach((ing, index) => { %>
+          <div class="ingredient-card">
+            <div class="ingredient-fields">
+              <input type="text" name="ingredients[<%= index %>][name]" value="<%= ing.name %>" placeholder="Ingredient name" required>
+              <input type="number" name="ingredients[<%= index %>][quantity]" value="<%= ing.quantity %>" placeholder="Quantity" step="any" required>
+            </div>
+            <button type="button" class="btn-icon" onclick="removeIngredient(this)" title="Delete Ingredient">🗑</button>
+          </div>
+        <% }) %>
       </div>
-      <button type="button" class="btn-icon" onclick="removeIngredient(this)" title="Delete Ingredient">🗑</button>
-    </div>
-  <% }) %>
-</div>
 
-<div class="action-row">
-  <button type="button" class="btn-secondary" onclick="addIngredient()">+ Add Ingredient</button>
-</div>
-
+      <div class="action-row">
+        <button type="button" class="btn-secondary" onclick="addIngredient()">+ Add Ingredient</button>
+      </div>
 
       <div class="action-buttons">
-  <button type="submit" class="btn-primary">💾 Save Changes</button>
-  <a href="/dashboard" class="btn-secondary">↩ Cancel</a>
-  <form action="/machines/delete/<%= machine._id %>" method="POST" style="display:inline;">
-    <button type="submit" class="btn-danger">🗑 Delete</button>
-  </form>
-</div>
+        <button type="submit" class="btn-primary">💾 Save Changes</button>
+        <button type="button" class="btn-secondary" onclick="window.history.back()">↩ Cancel</button>
+        <form action="/machines/delete/<%= machine._id %>" method="POST" style="display:inline;">
+          <button type="submit" class="btn-danger">🗑 Delete</button>
+        </form>
+      </div>
 
+    </form>
   </div>
 </section>
 
@@ -60,11 +72,13 @@
     const container = document.getElementById('ingredient-list');
     const index = container.children.length;
     const div = document.createElement('div');
-    div.className = 'ingredient-row';
+    div.className = 'ingredient-card';
     div.innerHTML = `
-      <input type="text" name="ingredients[${index}][name]" placeholder="Ingredient name" required>
-      <input type="number" name="ingredients[${index}][quantity]" placeholder="Quantity" step="any" required>
-      <button type="button" class="btn-delete" onclick="removeIngredient(this)">🗑</button>
+      <div class="ingredient-fields">
+        <input type="text" name="ingredients[${index}][name]" placeholder="Ingredient name" required>
+        <input type="number" name="ingredients[${index}][quantity]" placeholder="Quantity" step="any" required>
+      </div>
+      <button type="button" class="btn-icon" onclick="removeIngredient(this)">🗑</button>
     `;
     container.appendChild(div);
   }
@@ -82,7 +96,7 @@
   }
 
   .page-container {
-    padding: 40px 80px;
+    padding: 20px;
   }
 
   .page-header {
@@ -93,7 +107,7 @@
   }
 
   .page-title {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: #333;
   }
@@ -101,27 +115,16 @@
   .machine-form-card {
     background: #fff;
     border-radius: 12px;
-    padding: 30px 40px;
+    padding: 25px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     max-width: 700px;
     margin: auto;
   }
 
-  .machine-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
   .form-row {
     display: flex;
     flex-direction: column;
-  }
-
-  .form-row label {
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 6px;
+    margin-bottom: 15px;
   }
 
   .form-row input {
@@ -129,107 +132,84 @@
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 0.95rem;
-    transition: border-color 0.2s ease;
+    width: 100%;
   }
 
-  .form-row input:focus {
-    border-color: #007bff;
-    outline: none;
+  .ingredient-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 
-  .form-divider {
-    margin: 15px 0;
+  .ingredient-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ingredient-fields {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 10px;
+  }
+
+  .ingredient-fields input {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .btn-icon {
+    background-color: #ef4444;
+    color: white;
     border: none;
-    border-top: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 8px 10px;
   }
 
-  .section-subtitle {
-    font-size: 1.1rem;
-    color: #333;
-    font-weight: 600;
-    margin-bottom: 10px;
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
   }
 
- /* ----- INGREDIENT LIST STYLING (MODERN DASHBOARD STYLE) ----- */
-.ingredient-container {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-top: 20px;
-}
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+  }
 
-.ingredient-card {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
+  .btn-primary { background: #2563eb; color: white; }
+  .btn-secondary { background: #e5e7eb; color: #111827; }
+  .btn-danger { background: #ef4444; color: white; }
 
-.ingredient-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
-}
-
-.ingredient-fields {
-  display: flex;
-  gap: 12px;
-  flex: 1;
-}
-
-.ingredient-fields input {
-  flex: 1;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  font-size: 0.95rem;
-  background-color: #fff;
-  transition: all 0.2s ease;
-}
-
-.ingredient-fields input:focus {
-  border-color: #2563eb;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-}
-
-.btn-icon {
-  background-color: #ef4444;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  padding: 8px 10px;
-  font-size: 1rem;
-  transition: background-color 0.2s ease;
-}
-
-.btn-icon:hover {
-  background-color: #dc2626;
-}
-
-/* Add ingredient button row */
-.action-row {
-  text-align: right;
-  margin-top: 15px;
-}
-
-.action-row .btn-secondary {
-  background-color: #2563eb;
-  color: #fff;
-  font-weight: 500;
-  border-radius: 8px;
-  padding: 10px 16px;
-  transition: all 0.2s ease;
-}
-
-.action-row .btn-secondary:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-}
+  @media (max-width: 600px) {
+    .page-container {
+      padding: 10px;
+    }
+    .machine-form-card {
+      padding: 20px;
+    }
+    .ingredient-fields {
+      flex-direction: column;
+    }
+    .btn-primary, .btn-secondary, .btn-danger {
+      width: 100%;
+    }
+  }
 </style>
 
 <%- include('partials/footer') %>
