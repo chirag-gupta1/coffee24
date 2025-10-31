@@ -173,7 +173,6 @@ button {
   border: 2px solid #000; /* optional, makes it visible */
   padding: 10px 20px;
   font-size: 16px;
-  font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
   appearance: none;        /* removes iOS/Android default styles */
@@ -191,7 +190,6 @@ button:hover {
     background-color: #fff !important;
     color: #000 !important;
     -webkit-text-fill-color: #000 !important; /* iOS Safari fix */
-    border: 2px solid #000 !important;
     font-size: 16px !important;
   }
 }
