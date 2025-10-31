@@ -8,11 +8,29 @@
         <tr>
           <td><%= ing.name %></td>
           <td>
-            <select name="ing_<%= ing.name %>">
-              <% quantities.forEach(q=>{ %>
-                <option value="<%= q %>" <%= Number(ing.quantity) === Number(q) ? 'selected' : '' %>><%= q %></option>
-              <% }) %>
-            </select>
+            <% 
+  const manualInput = ['8OZ Cups', '10OZ Cups', '10OZ cups', 'Water Jugs']; 
+  const isManual = manualInput.includes(ing.name);
+%>
+
+<% if (isManual) { %>
+  <input 
+    type="number" 
+    step="0.1" 
+    min="0" 
+    name="ing_<%= ing.name %>" 
+    value="<%= ing.quantity && ing.quantity !== 0 ? ing.quantity : '' %>" 
+    placeholder="Enter amount">
+<% } else { %>
+  <select name="ing_<%= ing.name %>">
+    <option value="" <%= !ing.quantity ? 'selected' : '' %>>Select</option>
+    <% quantities.forEach(q => { %>
+      <option value="<%= q %>" <%= ing.quantity === q ? 'selected' : '' %>><%= q %></option>
+    <% }) %>
+  </select>
+<% } %>
+
+
           </td>
         </tr>
       <% }) %>
