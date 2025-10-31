@@ -194,3 +194,14 @@ button:hover {
   }
 }
 
+.btn-danger {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-danger:hover {
+  background-color: #c9302c;
+}

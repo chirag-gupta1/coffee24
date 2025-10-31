@@ -4,39 +4,69 @@
   <div class="search-wrap">
     <input id="machineSearch" placeholder="Search machine by code or location (e.g., 101 or Calado)">
   </div>
-
-  <form method="post" action="/save-report" style="text-align:right;margin-top:1px;">
-  <button type="submit" class="btn-cta">Save Report</button>
-</form>
-
-
+  <div style="display:flex;gap:10px;">
+    <a href="/machine/new" class="btn-cta">+ Add Machine</a>
+    <form method="post" action="/save-report">
+      <button type="submit" class="btn-cta">Save Report</button>
+    </form>
+  </div>
 </section>
 
 <section class="machines-grid">
   <% machines.forEach(m => { %>
-    <div class="machine-card" data-code="<%= m.code %>" data-model="$= m.model %>" data-loc="<%= m.location %>">
+    <div class="machine-card" data-id="<%= m._id %>">
+      <input type="checkbox" class="machine-select" <%= m.isSelected ? 'checked' : '' %> >
       <div class="mc-header">
         <div class="mc-code"><%= m.code %></div>
-        <div class="mc-model"><%=m.model %></div>
+        <div class="mc-model"><%= m.model %></div>
         <div class="mc-loc"><%= m.location %></div>
       </div>
-      <div class="mc-body">
-        <a class="btn-link" href="/machine/<%= m._id %>">Edit ingredients</a>
-      </div>
+      <div class="mc-body" style="display:flex; gap:6px;">
+  <a class="btn" href="/machine/<%= m._id %>">View / Edit</a>
+  <form method="post" action="/machine/<%= m._id %>/delete" onsubmit="return confirm('Delete this machine?');">
+    <button type="submit" class="btn btn-danger">🗑 Delete</button>
+  </form>
+</div>
+
     </div>
   <% }) %>
 </section>
 
 <section class="totals-panel">
-  <h3>Current Totals (all machines)</h3>
-  <div class="totals-grid">
-    <% Object.keys(totals).forEach(name=>{ %>
-      <div class="total-card">
-        <div class="total-name"><%= name %></div>
-        <div class="total-qty"><%= totals[name] %></div>
-      </div>
-    <% }) %>
-  </div>
+  <h3>Current Totals (selected machines)</h3>
+  <div id="totalsContainer">Loading totals...</div>
 </section>
+
+<script>
+async function refreshTotals() {
+  const res = await fetch('/totals');
+  const totals = await res.json();
+  const container = document.getElementById('totalsContainer');
+  container.innerHTML = '';
+  if (Object.keys(totals).length === 0) {
+    container.innerHTML = '<p>No machines selected yet.</p>';
+    return;
+  }
+  for (let [name, qty] of Object.entries(totals)) {
+    container.innerHTML += `<div class="total-card">
+      <div class="total-name">${name}</div>
+      <div class="total-qty">${qty}</div>
+    </div>`;
+  }
+}
+
+document.querySelectorAll('.machine-select').forEach(chk => {
+  chk.addEventListener('change', async e => {
+    const id = e.target.closest('.machine-card').dataset.id;
+    await fetch(`/machine/${id}/toggle`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    refreshTotals();
+  });
+});
+
+refreshTotals();
+</script>
 
 <%- include('partials/footer') %>
