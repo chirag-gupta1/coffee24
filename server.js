@@ -20,7 +20,12 @@ const Record = require('./models/Record');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGODB_URI;
+const APP_MODE = process.env.APP_MODE || 'prod';
+
+const MONGO_URI =
+  APP_MODE === 'demo'
+    ? process.env.MONGODB_URI_DEMO   // demo / fake data
+    : process.env.MONGODB_URI;       // real client data
 
 
 // -------------------------
