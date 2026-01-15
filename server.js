@@ -70,8 +70,8 @@ function requireAuth(req, res, next) {
 // Seed Admin + Machines
 // -------------------------
 async function seed() {
-  const adminUser = process.env.ADMIN_USERNAME || 'parteekbhardwaj';
-  const adminPass = process.env.ADMIN_PASSWORD || 'coffee24parteek';
+  const adminUser = process.env.ADMIN_USERNAME;
+  const adminPass = process.env.ADMIN_PASSWORD;
 
   try {
     const existing = await Admin.findOne({ username: adminUser });
